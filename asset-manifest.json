@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/agima-test-player/static/css/main.5eb21339.css",
-    "main.js": "/agima-test-player/static/js/main.b9ad3dc2.js",
+    "main.js": "/agima-test-player/static/js/main.93f9eb90.js",
     "static/media/circle.png": "/agima-test-player/static/media/circle.2e21701dff2f6d18da9f.png",
     "static/media/circle@2x.png": "/agima-test-player/static/media/circle@2x.2e21701dff2f6d18da9f.png",
     "static/media/volume-cross.svg": "/agima-test-player/static/media/volume-cross.15dc352bb2a33d3dc61044c9f0b0153e.svg",
@@ -10,10 +10,10 @@
     "index.html": "/agima-test-player/index.html",
     "static/media/rewind-back.svg": "/agima-test-player/static/media/rewind-back.1f6de528753663397087bbada3ebf2a9.svg",
     "main.5eb21339.css.map": "/agima-test-player/static/css/main.5eb21339.css.map",
-    "main.b9ad3dc2.js.map": "/agima-test-player/static/js/main.b9ad3dc2.js.map"
+    "main.93f9eb90.js.map": "/agima-test-player/static/js/main.93f9eb90.js.map"
   },
   "entrypoints": [
     "static/css/main.5eb21339.css",
-    "static/js/main.b9ad3dc2.js"
+    "static/js/main.93f9eb90.js"
   ]
 }
