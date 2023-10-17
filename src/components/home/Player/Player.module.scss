@@ -1,0 +1,196 @@
+@use 'sass:math' as math;
+@use 'src/styles/variables' as vars;
+@use 'src/styles/utils' as utils;
+@use 'src/styles/media' as media;
+
+$arrow-button-size: 54px;
+$play-button-size: 64px;
+$circle-width: 320px;
+$content-padding-left: 12px;
+$progress-track-width: 342px;
+$name-margin-left: 10px;
+
+@keyframes rotateAnimation {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.root {
+  background-color: vars.$color-background-white;
+  border-radius: 8px;
+  box-shadow: 0 4px 4px 0 vars.$color-blue-dark;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 6px 153px 6px $content-padding-left;
+  position: relative;
+}
+
+.soundRow,
+.nameRow,
+.progressRow {
+  align-items: center;
+  display: flex;
+  z-index: 1;
+}
+
+.prevButton,
+.nextButton,
+.playButton {
+  @include utils.set-transition(background-color);
+  @include utils.flex-center;
+
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(vars.$color-green, 0.3);
+  color: vars.$color-blue-dark;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: utils.to-rem(28px);
+  line-height: 1;
+
+  @include media.no-touch-hover {
+    background-color: rgba(vars.$color-green, 0.7);
+  }
+}
+
+.prevButton,
+.nextButton {
+  @include utils.set-size($arrow-button-size);
+
+  margin-left: math.div($play-button-size - $arrow-button-size, 2);
+}
+
+.playButton {
+  @include utils.set-size($play-button-size);
+}
+
+.nextIcon {
+  transform: rotate(180deg);
+}
+
+.soundContainer {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  margin-left: 25px;
+}
+
+.soundTrackContainer {
+  $padding: 8px;
+
+  background-color: transparent;
+  border: none;
+  height: 2px + $padding * 2;
+  padding-block: $padding;
+  width: 260px;
+}
+
+.soundTrack {
+  --progress: 0;
+
+  background-color: vars.$color-gray-light;
+  height: 100%;
+  width: 100%;
+
+  &::before {
+    @include utils.set-transition(width);
+
+    background-color: vars.$color-green;
+    content: "";
+    display: block;
+    height: 100%;
+    width: var(--progress);
+  }
+}
+
+.quieterButton,
+.louderButton {
+  @include utils.set-transition(color);
+
+  background-color: transparent;
+  border: none;
+  color: vars.$color-blue-dark;
+  cursor: pointer;
+
+  @include media.no-touch-hover {
+    color: vars.$color-green;
+  }
+}
+
+.nameContainer {
+  margin-left: $name-margin-left;
+  text-align: center;
+  width: $progress-track-width;
+}
+
+.name {
+  font-size: utils.to-rem(24px);
+  font-weight: vars.$font-weight-light;
+}
+
+.progressContainer {
+  $padding: 8px;
+
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  height: 4px + $padding * 2;
+  margin-left: 14px;
+  padding-block: $padding;
+  width: $progress-track-width;
+}
+
+.progressTrack {
+  --progress: 0;
+
+  background-color: vars.$color-gray-light;
+  height: 4px;
+  width: 100%;
+
+  &::before {
+    @include utils.set-transition(width);
+
+    background-color: vars.$color-green;
+    content: "";
+    display: block;
+    height: 100%;
+    width: var(--progress);
+  }
+}
+
+.coverContainer {
+  left: $play-button-size + $content-padding-left + $name-margin-left;
+  top: 0;
+  position: absolute;
+  height: 100%;
+  width: $progress-track-width;
+}
+
+.cover {
+  @include utils.absolute-center;
+
+  position: absolute;
+  object-fit: cover;
+  height: 100%;
+  opacity: 0.3;
+}
+
+.circle {
+  animation: rotateAnimation 3s linear infinite;
+  animation-play-state: paused;
+  height: 293px;
+  position: absolute;
+  right: math.div($circle-width, 2) * -1;
+  top: -60px;
+  width: $circle-width;
+
+  &.isRotating {
+    animation-play-state: running;
+  }
+}

@@ -1,0 +1,53 @@
+@use 'media' as media;
+@use 'variables' as vars;
+
+@function to-rem($size) {
+  @return ($size / vars.$root-font-size) * 1rem;
+}
+
+/**
+    Mixins is used to values for transition CSS property
+
+    Nested brackets because it's a collection.
+    There is no need in nested brackets for a single value, just use: @include utils.setTransition(background-color);
+
+    @example
+    .a {
+      @include utils.setTransition((color, opacity));
+    }
+
+    .a {
+        transition: ...(some default values);
+        transition-property: color, opacity;
+    }
+*/
+@mixin set-transition(
+  $properties: (),
+  $duration: vars.$transition-default-duration,
+  $timing-function: vars.$transition-default-timing-function
+) {
+  @if (length($properties) == 1) {
+    transition: $properties $duration $timing-function;
+  } @else if (length($properties) > 1) {
+    transition: $duration $timing-function;
+    transition-property: $properties;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin set-size($size) {
+  width: $size;
+  height: $size;
+}

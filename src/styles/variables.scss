@@ -1,0 +1,28 @@
+// Disable this rule because it don't support Sass module system (I mean `@use`)
+// stylelint-disable primer/no-unused-vars
+
+/* Colors
+ ========================================================================== */
+$color-blue-dark: #1c274c;
+$color-background-white: #fffdfd;
+$color-green: #05ac6a;
+$color-gray-light: #c5c6c5;
+
+/* Fonts weights
+ ========================================================================== */
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 700;
+$font-weight-extra-bold: 800;
+
+/* Base
+ ========================================================================== */
+$root-font-size: 16px;
+
+/* Transitions
+ ========================================================================== */
+$transition-default-duration: 0.2s !default;
+$transition-default-timing-function: ease-out !default;
+$transition-default: $transition-default-duration $transition-default-timing-function !default;
+
