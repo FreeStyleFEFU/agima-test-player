@@ -115,6 +115,19 @@ export const Player: FC<PlayerProps> = (props) => {
     else audio.volume = newVolume;
   };
 
+  const handleVolumeClick = (
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => {
+    if (audioRef === null || audioRef.current === null) return;
+
+    const audio = audioRef.current;
+
+    const positionLeft = event.nativeEvent.offsetX;
+    const width = (event.target as HTMLButtonElement).clientWidth;
+
+    audio.volume = positionLeft / width;
+  };
+
   const audioTimeUpdate = (event: Event) => {
     const { duration, currentTime } = event.target as HTMLAudioElement;
 
@@ -163,7 +176,11 @@ export const Player: FC<PlayerProps> = (props) => {
             <VolumeCrossIcon />
           </button>
 
-          <button type="button" className={styles.soundTrackContainer}>
+          <button
+            type="button"
+            className={styles.soundTrackContainer}
+            onClick={handleVolumeClick}
+          >
             <div
               className={styles.soundTrack}
               style={{ "--progress": `${volumePercent}%` } as CSSProperties}
