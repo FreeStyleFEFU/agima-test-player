@@ -62,7 +62,7 @@ export const Player: FC<PlayerProps> = (props) => {
       if (audioRef === null || audioRef.current === null) return;
 
       audioRef.current.play();
-    });
+    }, 100);
   };
 
   const goToPrevSong = () => {
@@ -131,7 +131,11 @@ export const Player: FC<PlayerProps> = (props) => {
   const audioTimeUpdate = (event: Event) => {
     const { duration, currentTime } = event.target as HTMLAudioElement;
 
-    setProgressPercent((currentTime / duration) * 100);
+    const progress = (currentTime / duration) * 100;
+
+    setProgressPercent(progress);
+
+    if (progress === 100) goToNextSong();
   };
 
   const audioVolumeUpdate = (event: Event) => {
