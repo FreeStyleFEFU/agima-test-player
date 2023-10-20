@@ -1,3 +1,5 @@
+Link to GitHub Pages: https://freestylefefu.github.io/agima-test-player/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
