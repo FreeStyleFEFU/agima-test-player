@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
   MouseEvent,
+  useLayoutEffect,
 } from "react";
 import clsx from "clsx";
 
@@ -38,9 +39,9 @@ export const Player: FC<PlayerProps> = (props) => {
   const { title, audioSrc, coverSrc } = items[selectedMusicItemIndex];
 
   const handlePlayButtonClick = () => {
-    if (audioRef === null || audioRef.current === null) return;
+    const audio = audioRef?.current ?? null;
 
-    const audio = audioRef.current;
+    if (audio === null) return;
 
     if (isPlaying) {
       audio.pause();
@@ -55,36 +56,20 @@ export const Player: FC<PlayerProps> = (props) => {
     setSelectedMusicItemIndex((prevIndex) =>
       prevIndex === items.length - 1 ? 0 : prevIndex + 1,
     );
-
-    if (!isPlaying) return;
-
-    setTimeout(() => {
-      if (audioRef === null || audioRef.current === null) return;
-
-      audioRef.current.play();
-    }, 100);
   };
 
   const goToPrevSong = () => {
     setSelectedMusicItemIndex((prevIndex) =>
       prevIndex === 0 ? items.length - 1 : prevIndex - 1,
     );
-
-    if (!isPlaying) return;
-
-    setTimeout(() => {
-      if (audioRef === null || audioRef.current === null) return;
-
-      audioRef.current.play();
-    });
   };
 
   const handleProgressClick = (
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
-    if (audioRef === null || audioRef.current === null) return;
+    const audio = audioRef?.current ?? null;
 
-    const audio = audioRef.current;
+    if (audio === null) return;
 
     const positionLeft = event.nativeEvent.offsetX;
     const width = (event.target as HTMLButtonElement).clientWidth;
@@ -94,9 +79,9 @@ export const Player: FC<PlayerProps> = (props) => {
   };
 
   const makeLouder = () => {
-    if (audioRef === null || audioRef.current === null) return;
+    const audio = audioRef?.current ?? null;
 
-    const audio = audioRef.current;
+    if (audio === null) return;
 
     const newVolume = audio.volume + 0.1;
 
@@ -105,9 +90,9 @@ export const Player: FC<PlayerProps> = (props) => {
   };
 
   const makeQuieter = () => {
-    if (audioRef === null || audioRef.current === null) return;
+    const audio = audioRef?.current ?? null;
 
-    const audio = audioRef.current;
+    if (audio === null) return;
 
     const newVolume = audio.volume - 0.1;
 
@@ -118,9 +103,9 @@ export const Player: FC<PlayerProps> = (props) => {
   const handleVolumeClick = (
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
-    if (audioRef === null || audioRef.current === null) return;
+    const audio = audioRef?.current ?? null;
 
-    const audio = audioRef.current;
+    if (audio === null) return;
 
     const positionLeft = event.nativeEvent.offsetX;
     const width = (event.target as HTMLButtonElement).clientWidth;
@@ -130,6 +115,8 @@ export const Player: FC<PlayerProps> = (props) => {
 
   const audioTimeUpdate = (event: Event) => {
     const { duration, currentTime } = event.target as HTMLAudioElement;
+
+    if (isNaN(duration)) return;
 
     const progress = (currentTime / duration) * 100;
 
@@ -144,10 +131,20 @@ export const Player: FC<PlayerProps> = (props) => {
     setVolumePercent(volume * 100);
   };
 
-  useEffect(() => {
-    if (audioRef === null || audioRef.current === null) return;
+  useLayoutEffect(() => {
+    setProgressPercent(0);
 
-    const audio = audioRef.current;
+    const audio = audioRef?.current ?? null;
+
+    if (!isPlaying || audio === null) return;
+
+    audio.play();
+  }, [selectedMusicItemIndex]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const audio = audioRef?.current ?? null;
+
+    if (audio === null) return;
 
     audio.addEventListener("timeupdate", audioTimeUpdate);
     audio.addEventListener("volumechange", audioVolumeUpdate);
@@ -156,7 +153,7 @@ export const Player: FC<PlayerProps> = (props) => {
       audio.removeEventListener("timeupdate", audioTimeUpdate);
       audio.removeEventListener("volumechange", audioVolumeUpdate);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={styles.root}>
